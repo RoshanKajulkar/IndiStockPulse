@@ -17,7 +17,7 @@ RUN chmod +x mvnw
 RUN ./mvnw clean package
 
 # Copy the JAR file from the target directory to the working directory
-COPY target/*.jar app.jar
+COPY target/IndiStockPulse-0.0.1-SNAPSHOT.jar.original app.jar
 
 # Define the command to run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
