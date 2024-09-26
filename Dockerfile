@@ -1,5 +1,8 @@
-# Use an OpenJDK image
-FROM openjdk:11-jre-slim
+# Use an OpenJDK 17 image
+FROM openjdk:17-jdk-slim
+
+# Set the JAVA_HOME environment variable (optional, as it's typically set by the image)
+ENV JAVA_HOME=/usr/local/openjdk-17
 
 # Set the working directory inside the container
 WORKDIR /app
