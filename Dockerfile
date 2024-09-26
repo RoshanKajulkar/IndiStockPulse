@@ -16,6 +16,9 @@ RUN chmod +x mvnw
 # Build the application
 RUN ./mvnw clean package
 
+# List the contents of the target directory for debugging
+RUN ls -l target/
+
 # Copy the JAR file from the target directory to the working directory
 COPY target/IndiStockPulse-0.0.1-SNAPSHOT.jar.original app.jar
 
