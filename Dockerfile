@@ -7,7 +7,10 @@ WORKDIR /app
 # Copy the entire project into the container
 COPY . .
 
-# Build the application (you might need to run this step separately)
+# Set the execute permission for the Maven wrapper
+RUN chmod +x mvnw
+
+# Build the application
 RUN ./mvnw clean package
 
 # Copy the JAR file from the target directory to the working directory
