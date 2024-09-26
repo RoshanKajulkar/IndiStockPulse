@@ -1,14 +1,17 @@
-# Use an official OpenJDK image.
-FROM openjdk:17-jdk-slim
+# Use an OpenJDK image
+FROM openjdk:11-jre-slim
 
-# Set the working directory inside the container.
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the project jar to the container.
+# Copy the entire project into the container
+COPY . .
+
+# Build the application (you might need to run this step separately)
+RUN ./mvnw clean package
+
+# Copy the JAR file from the target directory to the working directory
 COPY target/*.jar app.jar
 
-# Expose the application port.
-EXPOSE 8080
-
-# Run the jar file.
-ENTRYPOINT ["java","-jar","app.jar"]
+# Define the command to run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]
