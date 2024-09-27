@@ -1,26 +1,8 @@
-# Use an OpenJDK 17 image
-FROM openjdk:17-jdk-slim
-
-# Set the JAVA_HOME environment variable (optional, as it's typically set by the image)
-ENV JAVA_HOME=/usr/local/openjdk-17
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the entire project into the container
+FROM maven:3.8.3-openjdk-17 AS build
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Set the execute permission for the Maven wrapper
-RUN chmod +x mvnw
-
-# Build the application
-RUN ./mvnw clean package
-
-# List the contents of the target directory for debugging
-RUN ls -l target/
-
-# Copy the JAR file from the target directory to the working directory
-COPY target/IndiStockPulse-0.0.1-SNAPSHOT.jar.original app.jar
-
-# Define the command to run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/IndiStockPulse-0.0.1-SNAPSHOT.jar IndiStockPulse.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "IndiStockPulse.jar"]
