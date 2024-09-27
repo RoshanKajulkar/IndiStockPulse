@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
                 .csrf().disable() // Disable CSRF for simplicity (not recommended for production)
                 .authorizeRequests()
-                .requestMatchers("/hello").permitAll() // Allow access to the /hello endpoint
+                .requestMatchers("/api/market-data").permitAll() // Allow access to the /hello endpoint
                 .anyRequest().authenticated(); // Require authentication for any other requests
         return http.build();
     }
