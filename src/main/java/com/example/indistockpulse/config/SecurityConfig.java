@@ -11,10 +11,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // Disable CSRF for simplicity (not recommended for production)
+                .csrf().disable() // Disable CSRF (for development/testing; enable it for production)
                 .authorizeRequests()
-                .requestMatchers("/api/market-data").permitAll() // Allow access to the /hello endpoint
-                .anyRequest().authenticated(); // Require authentication for any other requests
+                .anyRequest().permitAll(); // Allow access to all requests without authentication
         return http.build();
     }
 }
