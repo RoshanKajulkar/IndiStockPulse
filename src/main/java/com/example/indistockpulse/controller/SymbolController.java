@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("symbols") // Ensure this includes the /api prefix
+@RequestMapping("symbols")
 public class SymbolController {
 
     @Autowired
@@ -20,10 +20,16 @@ public class SymbolController {
 
     @GetMapping
     public SymbolsResponse getAllSymbols() {
-        List<SymbolModel> symbolModels = symbolService.getAllSymbols();
-        List<String> symbols = symbolModels.stream()
-                .map(SymbolModel::getSymbol) // Extract the symbol string
-                .collect(Collectors.toList()); // Collect to a list of strings
-        return new SymbolsResponse("ok", symbols);
+        try {
+            List<SymbolModel> symbolModels = symbolService.getAllSymbols();
+            List<String> symbols = symbolModels.stream()
+                    .map(SymbolModel::getSymbol)
+                    .collect(Collectors.toList());
+            return new SymbolsResponse("ok", symbols);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new SymbolsResponse("error", List.of());
+        }
+
     }
 }
