@@ -3,7 +3,7 @@ package com.example.indistockpulse.dto;
 public class StockDataRequest {
     private String symbol;
     private String resolution;
-    private int dateFormat;
+
     private String rangeFrom;
     private String rangeTo;
 
@@ -22,14 +22,6 @@ public class StockDataRequest {
 
     public void setResolution(String resolution) {
         this.resolution = resolution;
-    }
-
-    public int getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(int dateFormat) {
-        this.dateFormat = dateFormat;
     }
 
     public String getRangeFrom() {

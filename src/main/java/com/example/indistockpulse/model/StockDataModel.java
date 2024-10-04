@@ -1,9 +1,10 @@
 package com.example.indistockpulse.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "stock_data_1min")
+@Table(name = "stock_data_15min")
 @IdClass(StockDataId.class)
 public class StockDataModel {
 
@@ -16,16 +17,16 @@ public class StockDataModel {
     private Short symbolId;
 
     @Column(name = "open", nullable = false)
-    private Double open;
+    private BigDecimal open; // Decimal to BigDecimal
 
     @Column(name = "high", nullable = false)
-    private Double high;
+    private BigDecimal high; // Decimal to BigDecimal
 
     @Column(name = "low", nullable = false)
-    private Double low;
+    private BigDecimal low; // Decimal to BigDecimal
 
     @Column(name = "close", nullable = false)
-    private Double close;
+    private BigDecimal close; // Decimal to BigDecimal
 
     // Getters and Setters
     public Integer getCurrentEpochTime() {
@@ -44,35 +45,35 @@ public class StockDataModel {
         this.symbolId = symbolId;
     }
 
-    public Double getOpen() {
+    public BigDecimal getOpen() {
         return open;
     }
 
-    public void setOpen(Double open) {
+    public void setOpen(BigDecimal open) {
         this.open = open;
     }
 
-    public Double getHigh() {
+    public BigDecimal getHigh() {
         return high;
     }
 
-    public void setHigh(Double high) {
+    public void setHigh(BigDecimal high) {
         this.high = high;
     }
 
-    public Double getLow() {
+    public BigDecimal getLow() {
         return low;
     }
 
-    public void setLow(Double low) {
+    public void setLow(BigDecimal low) {
         this.low = low;
     }
 
-    public Double getClose() {
+    public BigDecimal getClose() {
         return close;
     }
 
-    public void setClose(Double close) {
+    public void setClose(BigDecimal close) {
         this.close = close;
     }
 }
