@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoute";
 import stockRoutes from "./routes/stockRoutes";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import { rateLimiterMiddleware } from "./middlewares/rateLimiterMiddleware";
+import cors from "cors";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {

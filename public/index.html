@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui.min.css"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
@@ -11,7 +15,7 @@
     />
     <link
       rel="icon"
-      href="https://bear11-2lec.onrender.com/logo.png"
+      href="https://bear11-2lec.onrender.com/logo"
       type="image/png"
     />
     <title>IndiStockPulse</title>
@@ -19,139 +23,434 @@
       td {
         vertical-align: middle;
       }
+      .swagger-ui .try-out {
+        display: none !important;
+      }
+      .swagger-ui .opblock-summary-method {
+        cursor: default; /* Disable pointer cursor on operation block */
+      }
+      .swagger-ui .opblock-tag {
+        display: none; /* Hides the tag group headers */
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1 class="text-center">IndiStockPulse</h1>
-      <p class="text-center">
+      <!-- <h1 class="text-center">IndiStockPulse</h1> -->
+      <!-- <p class="text-center">
         India's first independent, non-broker, free stock market data provider
-      </p>
-
-      <!-- Get api to fetch available symbols -->
-      <div>
-        <div class="alert alert-success" role="alert">
-          https://indistockpulse.onrender.com/api/stocks/symbols [GET]
-        </div>
-        <p>The API provides list of available symbols.</p>
-
-        <h3>Response Attribute</h3>
-        <table class="table table-bordered">
-          <tr>
-            <th>Attribute</th>
-            <th>Data Type</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> s </span>
-            </td>
-            <td>
-              <div>string</div>
-            </td>
-            <td>ok / error</td>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> symbols </span>
-            </td>
-            <td>
-              <div>array</div>
-            </td>
-            <td>Contains list of symbols</td>
-          </tr>
-        </table>
-      </div>
-
-      <!-- Post api to fetch stock data -->
-      <div>
-        <div class="alert alert-warning" role="alert">
-          https://indistockpulse.onrender.com/api/stocks/data [POST]
-        </div>
-        <p>
-          The API provides 15min historical stock data from 2022 to 2024 Sept.
-        </p>
-
-        <h3>Request Attribute</h3>
-        <table class="table table-bordered">
-          <tr>
-            <th>Attribute</th>
-            <th>Data Type</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> symbol* </span>
-            </td>
-            <td>
-              <div>string</div>
-            </td>
-            <td>
-              Mandatory. Eg: RELIANCE (list of available symbols can be fetched
-              using <b>/symbols</b> api)
-            </td>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> range_from* </span>
-            </td>
-            <td>
-              <div>string</div>
-            </td>
-            <td>Accepts <b>yyyy-mm-dd</b> format</td>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> range_to* </span>
-            </td>
-            <td>
-              <div>string</div>
-            </td>
-            <td>Accepts <b>yyyy-mm-dd</b> format</td>
-          </tr>
-        </table>
-
-        <h3>Response Attribute</h3>
-        <table class="table table-bordered">
-          <tr>
-            <th>Attribute</th>
-            <th>Data Type</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> s </span>
-            </td>
-            <td>
-              <div>string</div>
-            </td>
-            <td>ok / error</td>
-          </tr>
-          <tr>
-            <td class="py-4">
-              <span class="alert alert-light" role="alert"> candles </span>
-            </td>
-            <td>
-              <div>array</div>
-            </td>
-            <td>
-              Candles data containing array of following data for particular
-              time stamp: <br />
-              1.Current epoch time <br />
-              2. Open Value <br />
-              3.Highest Value <br />
-              4.Lowest Value <br />
-              5.Close Value
-            </td>
-          </tr>
-        </table>
-      </div>
+      </p> -->
     </div>
-
+    <div id="swagger-ui"></div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui-standalone-preset.min.js"></script>
+    <script>
+      window.onload = () => {
+        const swaggerSpec = {
+          openapi: "3.0.0",
+          info: {
+            title: "IndiStockPulse API",
+            version: "1.0.0",
+            description:
+              "REST API documentation for IndiStockPulse, India's first independent, non-broker, free stock market data provider, providing 15-minute stock market data.",
+          },
+          servers: [
+            {
+              url: "https://indistockpulse.onrender.com/api",
+              description: "Base URL for the IndiStockPulse API",
+            },
+          ],
+          paths: {
+            "/user/register": {
+              post: {
+                summary: "Register a New User",
+                description:
+                  "Creates a new user account with the provided details.",
+                requestBody: {
+                  required: true,
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          username: {
+                            type: "string",
+                            example: "roshank",
+                            description: "Username for the new account",
+                          },
+                          email: {
+                            type: "string",
+                            format: "email",
+                            example: "roshan@gmail.com",
+                            description: "Email address for the new user",
+                          },
+                          password: {
+                            type: "string",
+                            format: "password",
+                            example: "test",
+                            description: "Password for the new account",
+                          },
+                        },
+                        required: ["username", "email", "password"],
+                      },
+                    },
+                  },
+                },
+                responses: {
+                  201: {
+                    description: "User successfully registered",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            id: {
+                              type: "string",
+                              format: "uuid",
+                              example: "a369bd90-bb9d-4e81-a65a-73bffa4cf479",
+                              description:
+                                "Unique identifier for the newly created user",
+                            },
+                            email: {
+                              type: "string",
+                              format: "email",
+                              example: "roshan@gmail.com",
+                              description: "Registered email address",
+                            },
+                            username: {
+                              type: "string",
+                              example: "roshank",
+                              description: "Registered username",
+                            },
+                            created_at: {
+                              type: "string",
+                              format: "date-time",
+                              example: "2024-10-24T10:30:23.888Z",
+                              description:
+                                "Timestamp when the user was created",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  400: {
+                    description: "User already exists",
+                  },
+                },
+              },
+            },
+
+            "/user/login": {
+              post: {
+                summary: "User Login",
+                description:
+                  "Allows a user to log in and receive an access token and refresh token.",
+                requestBody: {
+                  required: true,
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          email: {
+                            type: "string",
+                            example: "roshan@gmail.com",
+                          },
+                          password: {
+                            type: "string",
+                            example: "test",
+                          },
+                        },
+                        required: ["email", "password"],
+                      },
+                    },
+                  },
+                },
+                responses: {
+                  200: {
+                    description: "Login successful",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                              example: "Login successful",
+                            },
+                            accessToken: {
+                              type: "string",
+                              example:
+                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczMGQ2YjZjLTJhZjgtNGM4MS05YjAzLTlhM2I2NzNkNWJmMiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3Mjk3ODc0OTUsImV4cCI6MTcyOTc5MTA5NX0.WpfdYz7cJCQLFrJGFj-7pU7iv7TVMQQuLHoZOwhif0c",
+                            },
+                            refreshToken: {
+                              type: "string",
+                              example:
+                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczMGQ2YjZjLTJhZjgtNGM4MS05YjAzLTlhM2I2NzNkNWJmMiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzI5Nzg3NDk1LCJleHAiOjE3MzAyMTk0OTV9.2V6-AqJyIqROKmfIAJie9hq5GHyxuQuCQ27AtCG0roc",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  400: {
+                    description: "Invalid credentials",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                              example: "Invalid credentials",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+
+            "/auth/refresh-token": {
+              post: {
+                summary: "Refresh Access Token",
+                description:
+                  "Used to obtain a new access token using a valid refresh token.",
+                requestBody: {
+                  required: true,
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          refreshToken: {
+                            type: "string",
+                            example:
+                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczMGQ2YjZjLTJhZjgtNGM4MS05YjAzLTlhM2I2NzNkNWJmMiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzI5NzUwMTY2LCJleHAiOjE3MzAxODIxNjZ9.XKPWGdhQKJcMDjnbyX6m4HuOlaPF8gRfPiek8ieUkfk",
+                          },
+                        },
+                        required: ["refreshToken"],
+                      },
+                    },
+                  },
+                },
+                responses: {
+                  200: {
+                    description: "Access token successfully refreshed",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            accessToken: {
+                              type: "string",
+                              example:
+                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczMGQ2YjZjLTJhZjgtNGM4MS05YjAzLTlhM2I2NzNkNWJmMiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3Mjk3ODc2NzksImV4cCI6MTcyOTc5MTI3OX0.0Esa7SUEBuwbSATKxHaefvxv8BCRnc1lwLJFxDyTILk",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  403: {
+                    description: "Invalid or expired refresh token",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                              example: "Invalid or expired refresh token",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+
+            "/stocks/symbols": {
+              get: {
+                summary: "Fetch Available Stock Symbols",
+                description:
+                  "Fetch a list of stock symbols for which data is available. The 'pattern' query parameter is optional and can be used to filter symbols.",
+                parameters: [
+                  {
+                    name: "pattern",
+                    in: "query",
+                    required: false,
+                    description: "Optional pattern to filter stock symbols.",
+                    schema: {
+                      type: "string",
+                      example: "rel",
+                    },
+                  },
+                ],
+                responses: {
+                  200: {
+                    description: "List of available stock symbols",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            count: {
+                              type: "integer",
+                              example: 1,
+                            },
+                            symbols: {
+                              type: "array",
+                              items: {
+                                type: "string",
+                                example: "RELIANCE",
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  403: {
+                    description: "Invalid token type. Access token required.",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                              example:
+                                "Invalid token type. Access token required.",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+
+            "/stocks/data": {
+              post: {
+                summary: "Fetch Historical Stock Data",
+                description:
+                  "Fetch historical stock data for a specific symbol within a specified date range.",
+                requestBody: {
+                  required: true,
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          symbol: {
+                            type: "string",
+                            example: "RELIANCE",
+                          },
+                          range_from: {
+                            type: "string",
+                            format: "date",
+                            example: "2024-01-15",
+                          },
+                          range_to: {
+                            type: "string",
+                            format: "date",
+                            example: "2024-03-31",
+                          },
+                        },
+                        required: ["symbol", "range_from", "range_to"],
+                      },
+                    },
+                  },
+                },
+                responses: {
+                  200: {
+                    description: "Historical stock data fetched successfully",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            s: {
+                              type: "string",
+                              example: "ok",
+                            },
+                            candles: {
+                              type: "array",
+                              items: {
+                                type: "array",
+                                items: [
+                                  {
+                                    type: "integer",
+                                    example: 1705290300, // timestamp
+                                  },
+                                  {
+                                    type: "number",
+                                    example: 2750, // open
+                                  },
+                                  {
+                                    type: "number",
+                                    example: 2759.15, // high
+                                  },
+                                  {
+                                    type: "number",
+                                    example: 2746, // low
+                                  },
+                                  {
+                                    type: "number",
+                                    example: 2749.2, // close
+                                  },
+                                ],
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  403: {
+                    description: "Invalid token type. Access token required.",
+                    content: {
+                      "application/json": {
+                        schema: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                              example:
+                                "Invalid token type. Access token required.",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+
+        const ui = SwaggerUIBundle({
+          spec: swaggerSpec,
+          dom_id: "#swagger-ui",
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          layout: "BaseLayout",
+          tryItOutEnabled: false,
+          defaultModelsExpandDepth: -1,
+        });
+      };
+    </script>
   </body>
 </html>
